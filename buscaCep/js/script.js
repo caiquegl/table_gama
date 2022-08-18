@@ -35,6 +35,9 @@ const restauredTable = () => {
 };
 
 const createTable = (data) => {
+  const myNode = document.getElementById("start-wrapper");
+  myNode.innerHTML = "";
+  localStorage.removeItem("table");
   let th = document.createElement("tr");
 
   let td1 = document.createElement("td");
