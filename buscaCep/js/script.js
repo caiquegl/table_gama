@@ -1,21 +1,26 @@
 const getCep = async () => {
+  console.log("aqui");
   let val = document.getElementById("cep").value;
   await fetch(`https://viacep.com.br/ws/${val}/json/`)
     .then((T) => T.json())
     .then((data) => {
-      createTable(data);
       saveLocalStorage(data);
+      createTable(data);
     });
 };
 
 const saveLocalStorage = (data) => {
-  let local = localStorage.getItem("table");
-  if (local) {
-    let convert = JSON.parse(local);
-    convert.push(data);
-    localStorage.setItem("table", JSON.stringify(convert));
-  } else {
-    localStorage.setItem("table", JSON.stringify([data]));
+  try {
+    let local = localStorage.getItem("table");
+    if (local != null) {
+      let convert = JSON.parse(local);
+      convert.push(data);
+      localStorage.setItem("table", JSON.stringify(convert));
+    } else {
+      localStorage.setItem("table", JSON.stringify([data]));
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -37,7 +42,6 @@ const restauredTable = () => {
 const createTable = (data) => {
   const myNode = document.getElementById("start-wrapper");
   myNode.innerHTML = "";
-  localStorage.removeItem("table");
   let th = document.createElement("tr");
 
   let td1 = document.createElement("td");
